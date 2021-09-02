@@ -28,10 +28,10 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @metric = args['metric']
-          @limit = args['limit']
-          @usage = args['usage']
-          @owner = args['owner']
+          @metric = args["metric"]
+          @limit = args["limit"]
+          @usage = args["usage"]
+          @owner = args["owner"]
         end
 
         def to_s

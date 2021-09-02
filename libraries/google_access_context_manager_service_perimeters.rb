@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class AccessContextManagerServicePerimeters < GcpResourceBase
-  name 'google_access_context_manager_service_perimeters'
-  desc 'ServicePerimeter plural resource'
-  supports platform: 'gcp'
+  name "google_access_context_manager_service_perimeters"
+  desc "ServicePerimeter plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -39,12 +39,12 @@ class AccessContextManagerServicePerimeters < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('servicePerimeters')
+    @table = fetch_wrapped_resource("servicePerimeters")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -72,16 +72,16 @@ class AccessContextManagerServicePerimeters < GcpResourceBase
 
   def transformers
     {
-      'title' => ->(obj) { return :title, obj['title'] },
-      'description' => ->(obj) { return :description, obj['description'] },
-      'createTime' => ->(obj) { return :create_time, parse_time_string(obj['createTime']) },
-      'updateTime' => ->(obj) { return :update_time, parse_time_string(obj['updateTime']) },
-      'perimeterType' => ->(obj) { return :perimeter_type, obj['perimeterType'] },
-      'status' => ->(obj) { return :status, GoogleInSpec::AccessContextManager::Property::ServicePerimeterStatus.new(obj['status'], to_s) },
-      'spec' => ->(obj) { return :spec, GoogleInSpec::AccessContextManager::Property::ServicePerimeterSpec.new(obj['spec'], to_s) },
-      'useExplicitDryRunSpec' => ->(obj) { return :use_explicit_dry_run_spec, obj['useExplicitDryRunSpec'] },
-      'parent' => ->(obj) { return :parent, obj['parent'] },
-      'name' => ->(obj) { return :name, name_from_self_link(obj['name']) },
+      "title" => ->(obj) { return :title, obj["title"] },
+      "description" => ->(obj) { return :description, obj["description"] },
+      "createTime" => ->(obj) { return :create_time, parse_time_string(obj["createTime"]) },
+      "updateTime" => ->(obj) { return :update_time, parse_time_string(obj["updateTime"]) },
+      "perimeterType" => ->(obj) { return :perimeter_type, obj["perimeterType"] },
+      "status" => ->(obj) { return :status, GoogleInSpec::AccessContextManager::Property::ServicePerimeterStatus.new(obj["status"], to_s) },
+      "spec" => ->(obj) { return :spec, GoogleInSpec::AccessContextManager::Property::ServicePerimeterSpec.new(obj["spec"], to_s) },
+      "useExplicitDryRunSpec" => ->(obj) { return :use_explicit_dry_run_spec, obj["useExplicitDryRunSpec"] },
+      "parent" => ->(obj) { return :parent, obj["parent"] },
+      "name" => ->(obj) { return :name, name_from_self_link(obj["name"]) },
     }
   end
 
@@ -93,10 +93,10 @@ class AccessContextManagerServicePerimeters < GcpResourceBase
   private
 
   def product_url(_ = nil)
-    'https://accesscontextmanager.googleapis.com/v1/'
+    "https://accesscontextmanager.googleapis.com/v1/"
   end
 
   def resource_base_url
-    'accessPolicies/{{policy_name}}/servicePerimeters'
+    "accessPolicies/{{policy_name}}/servicePerimeters"
   end
 end

@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class ContainerNodePools < GcpResourceBase
-  name 'google_container_node_pools'
-  desc 'NodePool plural resource'
-  supports platform: 'gcp'
+  name "google_container_node_pools"
+  desc "NodePool plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -42,12 +42,12 @@ class ContainerNodePools < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('nodePools')
+    @table = fetch_wrapped_resource("nodePools")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -75,19 +75,19 @@ class ContainerNodePools < GcpResourceBase
 
   def transformers
     {
-      'name' => ->(obj) { return :node_pool_name, obj['name'] },
-      'config' => ->(obj) { return :config, GoogleInSpec::Container::Property::NodePoolConfig.new(obj['config'], to_s) },
-      'initialNodeCount' => ->(obj) { return :initial_node_count, obj['initialNodeCount'] },
-      'status' => ->(obj) { return :node_pool_status, obj['status'] },
-      'statusMessage' => ->(obj) { return :status_message, obj['statusMessage'] },
-      'version' => ->(obj) { return :version, obj['version'] },
-      'autoscaling' => ->(obj) { return :autoscaling, GoogleInSpec::Container::Property::NodePoolAutoscaling.new(obj['autoscaling'], to_s) },
-      'management' => ->(obj) { return :management, GoogleInSpec::Container::Property::NodePoolManagement.new(obj['management'], to_s) },
-      'maxPodsConstraint' => ->(obj) { return :max_pods_constraint, GoogleInSpec::Container::Property::NodePoolMaxPodsConstraint.new(obj['maxPodsConstraint'], to_s) },
-      'conditions' => ->(obj) { return :conditions, GoogleInSpec::Container::Property::NodePoolConditionsArray.parse(obj['conditions'], to_s) },
-      'podIpv4CidrSize' => ->(obj) { return :pod_ipv4_cidr_size, obj['podIpv4CidrSize'] },
-      'cluster' => ->(obj) { return :cluster, obj['cluster'] },
-      'location' => ->(obj) { return :location, obj['location'] },
+      "name" => ->(obj) { return :node_pool_name, obj["name"] },
+      "config" => ->(obj) { return :config, GoogleInSpec::Container::Property::NodePoolConfig.new(obj["config"], to_s) },
+      "initialNodeCount" => ->(obj) { return :initial_node_count, obj["initialNodeCount"] },
+      "status" => ->(obj) { return :node_pool_status, obj["status"] },
+      "statusMessage" => ->(obj) { return :status_message, obj["statusMessage"] },
+      "version" => ->(obj) { return :version, obj["version"] },
+      "autoscaling" => ->(obj) { return :autoscaling, GoogleInSpec::Container::Property::NodePoolAutoscaling.new(obj["autoscaling"], to_s) },
+      "management" => ->(obj) { return :management, GoogleInSpec::Container::Property::NodePoolManagement.new(obj["management"], to_s) },
+      "maxPodsConstraint" => ->(obj) { return :max_pods_constraint, GoogleInSpec::Container::Property::NodePoolMaxPodsConstraint.new(obj["maxPodsConstraint"], to_s) },
+      "conditions" => ->(obj) { return :conditions, GoogleInSpec::Container::Property::NodePoolConditionsArray.parse(obj["conditions"], to_s) },
+      "podIpv4CidrSize" => ->(obj) { return :pod_ipv4_cidr_size, obj["podIpv4CidrSize"] },
+      "cluster" => ->(obj) { return :cluster, obj["cluster"] },
+      "location" => ->(obj) { return :location, obj["location"] },
     }
   end
 
@@ -95,13 +95,13 @@ class ContainerNodePools < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://container.googleapis.com/v1beta1/'
+      "https://container.googleapis.com/v1beta1/"
     else
-      'https://container.googleapis.com/v1/'
+      "https://container.googleapis.com/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/locations/{{location}}/clusters/{{cluster_name}}/nodePools'
+    "projects/{{project}}/locations/{{location}}/clusters/{{cluster_name}}/nodePools"
   end
 end

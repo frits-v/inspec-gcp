@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class CloudBuildTriggers < GcpResourceBase
-  name 'google_cloudbuild_triggers'
-  desc 'Trigger plural resource'
-  supports platform: 'gcp'
+  name "google_cloudbuild_triggers"
+  desc "Trigger plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -42,12 +42,12 @@ class CloudBuildTriggers < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('triggers')
+    @table = fetch_wrapped_resource("triggers")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -75,19 +75,19 @@ class CloudBuildTriggers < GcpResourceBase
 
   def transformers
     {
-      'id' => ->(obj) { return :id, obj['id'] },
-      'name' => ->(obj) { return :name, obj['name'] },
-      'description' => ->(obj) { return :description, obj['description'] },
-      'tags' => ->(obj) { return :tags, obj['tags'] },
-      'disabled' => ->(obj) { return :disabled, obj['disabled'] },
-      'createTime' => ->(obj) { return :create_time, parse_time_string(obj['createTime']) },
-      'substitutions' => ->(obj) { return :substitutions, obj['substitutions'] },
-      'filename' => ->(obj) { return :filename, obj['filename'] },
-      'ignoredFiles' => ->(obj) { return :ignored_files, obj['ignoredFiles'] },
-      'includedFiles' => ->(obj) { return :included_files, obj['includedFiles'] },
-      'triggerTemplate' => ->(obj) { return :trigger_template, GoogleInSpec::CloudBuild::Property::TriggerTriggerTemplate.new(obj['triggerTemplate'], to_s) },
-      'github' => ->(obj) { return :github, GoogleInSpec::CloudBuild::Property::TriggerGithub.new(obj['github'], to_s) },
-      'build' => ->(obj) { return :build, GoogleInSpec::CloudBuild::Property::TriggerBuild.new(obj['build'], to_s) },
+      "id" => ->(obj) { return :id, obj["id"] },
+      "name" => ->(obj) { return :name, obj["name"] },
+      "description" => ->(obj) { return :description, obj["description"] },
+      "tags" => ->(obj) { return :tags, obj["tags"] },
+      "disabled" => ->(obj) { return :disabled, obj["disabled"] },
+      "createTime" => ->(obj) { return :create_time, parse_time_string(obj["createTime"]) },
+      "substitutions" => ->(obj) { return :substitutions, obj["substitutions"] },
+      "filename" => ->(obj) { return :filename, obj["filename"] },
+      "ignoredFiles" => ->(obj) { return :ignored_files, obj["ignoredFiles"] },
+      "includedFiles" => ->(obj) { return :included_files, obj["includedFiles"] },
+      "triggerTemplate" => ->(obj) { return :trigger_template, GoogleInSpec::CloudBuild::Property::TriggerTriggerTemplate.new(obj["triggerTemplate"], to_s) },
+      "github" => ->(obj) { return :github, GoogleInSpec::CloudBuild::Property::TriggerGithub.new(obj["github"], to_s) },
+      "build" => ->(obj) { return :build, GoogleInSpec::CloudBuild::Property::TriggerBuild.new(obj["build"], to_s) },
     }
   end
 
@@ -99,10 +99,10 @@ class CloudBuildTriggers < GcpResourceBase
   private
 
   def product_url(_ = nil)
-    'https://cloudbuild.googleapis.com/v1/'
+    "https://cloudbuild.googleapis.com/v1/"
   end
 
   def resource_base_url
-    'projects/{{project}}/triggers'
+    "projects/{{project}}/triggers"
   end
 end

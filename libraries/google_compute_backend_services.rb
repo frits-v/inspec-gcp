@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class ComputeBackendServices < GcpResourceBase
-  name 'google_compute_backend_services'
-  desc 'BackendService plural resource'
-  supports platform: 'gcp'
+  name "google_compute_backend_services"
+  desc "BackendService plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -54,12 +54,12 @@ class ComputeBackendServices < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('items')
+    @table = fetch_wrapped_resource("items")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -87,31 +87,31 @@ class ComputeBackendServices < GcpResourceBase
 
   def transformers
     {
-      'affinityCookieTtlSec' => ->(obj) { return :affinity_cookie_ttl_sec, obj['affinityCookieTtlSec'] },
-      'backends' => ->(obj) { return :backends, GoogleInSpec::Compute::Property::BackendServiceBackendsArray.parse(obj['backends'], to_s) },
-      'circuitBreakers' => ->(obj) { return :circuit_breakers, GoogleInSpec::Compute::Property::BackendServiceCircuitBreakers.new(obj['circuitBreakers'], to_s) },
-      'consistentHash' => ->(obj) { return :consistent_hash, GoogleInSpec::Compute::Property::BackendServiceConsistentHash.new(obj['consistentHash'], to_s) },
-      'cdnPolicy' => ->(obj) { return :cdn_policy, GoogleInSpec::Compute::Property::BackendServiceCdnPolicy.new(obj['cdnPolicy'], to_s) },
-      'connectionDraining' => ->(obj) { return :connection_draining, GoogleInSpec::Compute::Property::BackendServiceConnectionDraining.new(obj['connectionDraining'], to_s) },
-      'creationTimestamp' => ->(obj) { return :creation_timestamp, parse_time_string(obj['creationTimestamp']) },
-      'customRequestHeaders' => ->(obj) { return :custom_request_headers, obj['customRequestHeaders'] },
-      'customResponseHeaders' => ->(obj) { return :custom_response_headers, obj['customResponseHeaders'] },
-      'fingerprint' => ->(obj) { return :fingerprint, obj['fingerprint'] },
-      'description' => ->(obj) { return :description, obj['description'] },
-      'enableCDN' => ->(obj) { return :enable_cdn, obj['enableCDN'] },
-      'healthChecks' => ->(obj) { return :health_checks, obj['healthChecks'] },
-      'id' => ->(obj) { return :id, obj['id'] },
-      'iap' => ->(obj) { return :iap, GoogleInSpec::Compute::Property::BackendServiceIap.new(obj['iap'], to_s) },
-      'loadBalancingScheme' => ->(obj) { return :load_balancing_scheme, obj['loadBalancingScheme'] },
-      'localityLbPolicy' => ->(obj) { return :locality_lb_policy, obj['localityLbPolicy'] },
-      'name' => ->(obj) { return :name, obj['name'] },
-      'outlierDetection' => ->(obj) { return :outlier_detection, GoogleInSpec::Compute::Property::BackendServiceOutlierDetection.new(obj['outlierDetection'], to_s) },
-      'portName' => ->(obj) { return :port_name, obj['portName'] },
-      'protocol' => ->(obj) { return :protocol, obj['protocol'] },
-      'securityPolicy' => ->(obj) { return :security_policy, obj['securityPolicy'] },
-      'sessionAffinity' => ->(obj) { return :session_affinity, obj['sessionAffinity'] },
-      'timeoutSec' => ->(obj) { return :timeout_sec, obj['timeoutSec'] },
-      'logConfig' => ->(obj) { return :log_config, GoogleInSpec::Compute::Property::BackendServiceLogConfig.new(obj['logConfig'], to_s) },
+      "affinityCookieTtlSec" => ->(obj) { return :affinity_cookie_ttl_sec, obj["affinityCookieTtlSec"] },
+      "backends" => ->(obj) { return :backends, GoogleInSpec::Compute::Property::BackendServiceBackendsArray.parse(obj["backends"], to_s) },
+      "circuitBreakers" => ->(obj) { return :circuit_breakers, GoogleInSpec::Compute::Property::BackendServiceCircuitBreakers.new(obj["circuitBreakers"], to_s) },
+      "consistentHash" => ->(obj) { return :consistent_hash, GoogleInSpec::Compute::Property::BackendServiceConsistentHash.new(obj["consistentHash"], to_s) },
+      "cdnPolicy" => ->(obj) { return :cdn_policy, GoogleInSpec::Compute::Property::BackendServiceCdnPolicy.new(obj["cdnPolicy"], to_s) },
+      "connectionDraining" => ->(obj) { return :connection_draining, GoogleInSpec::Compute::Property::BackendServiceConnectionDraining.new(obj["connectionDraining"], to_s) },
+      "creationTimestamp" => ->(obj) { return :creation_timestamp, parse_time_string(obj["creationTimestamp"]) },
+      "customRequestHeaders" => ->(obj) { return :custom_request_headers, obj["customRequestHeaders"] },
+      "customResponseHeaders" => ->(obj) { return :custom_response_headers, obj["customResponseHeaders"] },
+      "fingerprint" => ->(obj) { return :fingerprint, obj["fingerprint"] },
+      "description" => ->(obj) { return :description, obj["description"] },
+      "enableCDN" => ->(obj) { return :enable_cdn, obj["enableCDN"] },
+      "healthChecks" => ->(obj) { return :health_checks, obj["healthChecks"] },
+      "id" => ->(obj) { return :id, obj["id"] },
+      "iap" => ->(obj) { return :iap, GoogleInSpec::Compute::Property::BackendServiceIap.new(obj["iap"], to_s) },
+      "loadBalancingScheme" => ->(obj) { return :load_balancing_scheme, obj["loadBalancingScheme"] },
+      "localityLbPolicy" => ->(obj) { return :locality_lb_policy, obj["localityLbPolicy"] },
+      "name" => ->(obj) { return :name, obj["name"] },
+      "outlierDetection" => ->(obj) { return :outlier_detection, GoogleInSpec::Compute::Property::BackendServiceOutlierDetection.new(obj["outlierDetection"], to_s) },
+      "portName" => ->(obj) { return :port_name, obj["portName"] },
+      "protocol" => ->(obj) { return :protocol, obj["protocol"] },
+      "securityPolicy" => ->(obj) { return :security_policy, obj["securityPolicy"] },
+      "sessionAffinity" => ->(obj) { return :session_affinity, obj["sessionAffinity"] },
+      "timeoutSec" => ->(obj) { return :timeout_sec, obj["timeoutSec"] },
+      "logConfig" => ->(obj) { return :log_config, GoogleInSpec::Compute::Property::BackendServiceLogConfig.new(obj["logConfig"], to_s) },
     }
   end
 
@@ -124,13 +124,13 @@ class ComputeBackendServices < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://compute.googleapis.com/compute/beta/'
+      "https://compute.googleapis.com/compute/beta/"
     else
-      'https://compute.googleapis.com/compute/v1/'
+      "https://compute.googleapis.com/compute/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/global/backendServices'
+    "projects/{{project}}/global/backendServices"
   end
 end

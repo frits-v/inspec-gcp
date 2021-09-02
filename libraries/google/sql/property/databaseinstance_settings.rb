@@ -13,10 +13,10 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'google/sql/property/databaseinstance_settings_backup_configuration'
-require 'google/sql/property/databaseinstance_settings_database_flags'
-require 'google/sql/property/databaseinstance_settings_ip_configuration'
-require 'google/sql/property/databaseinstance_settings_ip_configuration_authorized_networks'
+require "google/sql/property/databaseinstance_settings_backup_configuration"
+require "google/sql/property/databaseinstance_settings_database_flags"
+require "google/sql/property/databaseinstance_settings_ip_configuration"
+require "google/sql/property/databaseinstance_settings_ip_configuration_authorized_networks"
 module GoogleInSpec
   module SQL
     module Property
@@ -38,13 +38,13 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @database_flags = GoogleInSpec::SQL::Property::DatabaseInstanceSettingsDatabaseFlagsArray.parse(args['databaseFlags'], to_s)
-          @ip_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceSettingsIpConfiguration.new(args['ipConfiguration'], to_s)
-          @tier = args['tier']
-          @availability_type = args['availabilityType']
-          @backup_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceSettingsBackupConfiguration.new(args['backupConfiguration'], to_s)
-          @settings_version = args['settingsVersion']
-          @user_labels = args['userLabels']
+          @database_flags = GoogleInSpec::SQL::Property::DatabaseInstanceSettingsDatabaseFlagsArray.parse(args["databaseFlags"], to_s)
+          @ip_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceSettingsIpConfiguration.new(args["ipConfiguration"], to_s)
+          @tier = args["tier"]
+          @availability_type = args["availabilityType"]
+          @backup_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceSettingsBackupConfiguration.new(args["backupConfiguration"], to_s)
+          @settings_version = args["settingsVersion"]
+          @user_labels = args["userLabels"]
         end
 
         def to_s

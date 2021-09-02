@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class ComputeForwardingRules < GcpResourceBase
-  name 'google_compute_forwarding_rules'
-  desc 'ForwardingRule plural resource'
-  supports platform: 'gcp'
+  name "google_compute_forwarding_rules"
+  desc "ForwardingRule plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -51,12 +51,12 @@ class ComputeForwardingRules < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('items')
+    @table = fetch_wrapped_resource("items")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -84,28 +84,28 @@ class ComputeForwardingRules < GcpResourceBase
 
   def transformers
     {
-      'creationTimestamp' => ->(obj) { return :creation_timestamp, parse_time_string(obj['creationTimestamp']) },
-      'isMirroringCollector' => ->(obj) { return :is_mirroring_collector, obj['isMirroringCollector'] },
-      'description' => ->(obj) { return :description, obj['description'] },
-      'id' => ->(obj) { return :forwarding_rule_id, obj['id'] },
-      'IPAddress' => ->(obj) { return :ip_address, obj['IPAddress'] },
-      'IPProtocol' => ->(obj) { return :ip_protocol, obj['IPProtocol'] },
-      'backendService' => ->(obj) { return :backend_service, obj['backendService'] },
-      'loadBalancingScheme' => ->(obj) { return :forwarding_rule_load_balancing_scheme, obj['loadBalancingScheme'] },
-      'name' => ->(obj) { return :forwarding_rule_name, obj['name'] },
-      'network' => ->(obj) { return :forwarding_rule_network, name_from_self_link(obj['network']) },
-      'portRange' => ->(obj) { return :port_range, obj['portRange'] },
-      'ports' => ->(obj) { return :ports, obj['ports'] },
-      'subnetwork' => ->(obj) { return :subnetwork, obj['subnetwork'] },
-      'target' => ->(obj) { return :target, obj['target'] },
-      'allowGlobalAccess' => ->(obj) { return :allow_global_access, obj['allowGlobalAccess'] },
-      'labels' => ->(obj) { return :labels, obj['labels'] },
-      'labelFingerprint' => ->(obj) { return :label_fingerprint, obj['labelFingerprint'] },
-      'allPorts' => ->(obj) { return :all_ports, obj['allPorts'] },
-      'networkTier' => ->(obj) { return :network_tier, obj['networkTier'] },
-      'serviceLabel' => ->(obj) { return :service_label, obj['serviceLabel'] },
-      'serviceName' => ->(obj) { return :service_name, obj['serviceName'] },
-      'region' => ->(obj) { return :region, obj['region'] },
+      "creationTimestamp" => ->(obj) { return :creation_timestamp, parse_time_string(obj["creationTimestamp"]) },
+      "isMirroringCollector" => ->(obj) { return :is_mirroring_collector, obj["isMirroringCollector"] },
+      "description" => ->(obj) { return :description, obj["description"] },
+      "id" => ->(obj) { return :forwarding_rule_id, obj["id"] },
+      "IPAddress" => ->(obj) { return :ip_address, obj["IPAddress"] },
+      "IPProtocol" => ->(obj) { return :ip_protocol, obj["IPProtocol"] },
+      "backendService" => ->(obj) { return :backend_service, obj["backendService"] },
+      "loadBalancingScheme" => ->(obj) { return :forwarding_rule_load_balancing_scheme, obj["loadBalancingScheme"] },
+      "name" => ->(obj) { return :forwarding_rule_name, obj["name"] },
+      "network" => ->(obj) { return :forwarding_rule_network, name_from_self_link(obj["network"]) },
+      "portRange" => ->(obj) { return :port_range, obj["portRange"] },
+      "ports" => ->(obj) { return :ports, obj["ports"] },
+      "subnetwork" => ->(obj) { return :subnetwork, obj["subnetwork"] },
+      "target" => ->(obj) { return :target, obj["target"] },
+      "allowGlobalAccess" => ->(obj) { return :allow_global_access, obj["allowGlobalAccess"] },
+      "labels" => ->(obj) { return :labels, obj["labels"] },
+      "labelFingerprint" => ->(obj) { return :label_fingerprint, obj["labelFingerprint"] },
+      "allPorts" => ->(obj) { return :all_ports, obj["allPorts"] },
+      "networkTier" => ->(obj) { return :network_tier, obj["networkTier"] },
+      "serviceLabel" => ->(obj) { return :service_label, obj["serviceLabel"] },
+      "serviceName" => ->(obj) { return :service_name, obj["serviceName"] },
+      "region" => ->(obj) { return :region, obj["region"] },
     }
   end
 
@@ -118,13 +118,13 @@ class ComputeForwardingRules < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://compute.googleapis.com/compute/beta/'
+      "https://compute.googleapis.com/compute/beta/"
     else
-      'https://compute.googleapis.com/compute/v1/'
+      "https://compute.googleapis.com/compute/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/regions/{{region}}/forwardingRules'
+    "projects/{{project}}/regions/{{region}}/forwardingRules"
   end
 end

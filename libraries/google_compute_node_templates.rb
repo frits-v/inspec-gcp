@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class ComputeNodeTemplates < GcpResourceBase
-  name 'google_compute_node_templates'
-  desc 'NodeTemplate plural resource'
-  supports platform: 'gcp'
+  name "google_compute_node_templates"
+  desc "NodeTemplate plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -38,12 +38,12 @@ class ComputeNodeTemplates < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('items')
+    @table = fetch_wrapped_resource("items")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -71,15 +71,15 @@ class ComputeNodeTemplates < GcpResourceBase
 
   def transformers
     {
-      'creationTimestamp' => ->(obj) { return :creation_timestamp, parse_time_string(obj['creationTimestamp']) },
-      'description' => ->(obj) { return :description, obj['description'] },
-      'name' => ->(obj) { return :name, obj['name'] },
-      'nodeAffinityLabels' => ->(obj) { return :node_affinity_labels, obj['nodeAffinityLabels'] },
-      'nodeType' => ->(obj) { return :node_type, obj['nodeType'] },
-      'nodeTypeFlexibility' => ->(obj) { return :node_type_flexibility, GoogleInSpec::Compute::Property::NodeTemplateNodeTypeFlexibility.new(obj['nodeTypeFlexibility'], to_s) },
-      'serverBinding' => ->(obj) { return :server_binding, GoogleInSpec::Compute::Property::NodeTemplateServerBinding.new(obj['serverBinding'], to_s) },
-      'cpuOvercommitType' => ->(obj) { return :cpu_overcommit_type, obj['cpuOvercommitType'] },
-      'region' => ->(obj) { return :region, obj['region'] },
+      "creationTimestamp" => ->(obj) { return :creation_timestamp, parse_time_string(obj["creationTimestamp"]) },
+      "description" => ->(obj) { return :description, obj["description"] },
+      "name" => ->(obj) { return :name, obj["name"] },
+      "nodeAffinityLabels" => ->(obj) { return :node_affinity_labels, obj["nodeAffinityLabels"] },
+      "nodeType" => ->(obj) { return :node_type, obj["nodeType"] },
+      "nodeTypeFlexibility" => ->(obj) { return :node_type_flexibility, GoogleInSpec::Compute::Property::NodeTemplateNodeTypeFlexibility.new(obj["nodeTypeFlexibility"], to_s) },
+      "serverBinding" => ->(obj) { return :server_binding, GoogleInSpec::Compute::Property::NodeTemplateServerBinding.new(obj["serverBinding"], to_s) },
+      "cpuOvercommitType" => ->(obj) { return :cpu_overcommit_type, obj["cpuOvercommitType"] },
+      "region" => ->(obj) { return :region, obj["region"] },
     }
   end
 
@@ -92,13 +92,13 @@ class ComputeNodeTemplates < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://compute.googleapis.com/compute/beta/'
+      "https://compute.googleapis.com/compute/beta/"
     else
-      'https://compute.googleapis.com/compute/v1/'
+      "https://compute.googleapis.com/compute/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/regions/{{region}}/nodeTemplates'
+    "projects/{{project}}/regions/{{region}}/nodeTemplates"
   end
 end

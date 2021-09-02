@@ -28,10 +28,10 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @algorithm = args['algorithm']
-          @key_length = args['keyLength']
-          @key_type = args['keyType']
-          @kind = args['kind']
+          @algorithm = args["algorithm"]
+          @key_length = args["keyLength"]
+          @key_type = args["keyType"]
+          @kind = args["kind"]
         end
 
         def to_s

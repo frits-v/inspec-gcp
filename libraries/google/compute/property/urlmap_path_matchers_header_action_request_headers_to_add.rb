@@ -26,9 +26,9 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @header_name = args['headerName']
-          @header_value = args['headerValue']
-          @replace = args['replace']
+          @header_name = args["headerName"]
+          @header_value = args["headerValue"]
+          @replace = args["replace"]
         end
 
         def to_s

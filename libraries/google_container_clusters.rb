@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class ContainerClusters < GcpResourceBase
-  name 'google_container_clusters'
-  desc 'Cluster plural resource'
-  supports platform: 'gcp'
+  name "google_container_clusters"
+  desc "Cluster plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -73,12 +73,12 @@ class ContainerClusters < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('clusters')
+    @table = fetch_wrapped_resource("clusters")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -106,50 +106,50 @@ class ContainerClusters < GcpResourceBase
 
   def transformers
     {
-      'name' => ->(obj) { return :cluster_name, obj['name'] },
-      'description' => ->(obj) { return :description, obj['description'] },
-      'initialNodeCount' => ->(obj) { return :initial_node_count, obj['initialNodeCount'] },
-      'nodeConfig' => ->(obj) { return :node_config, GoogleInSpec::Container::Property::ClusterNodeConfig.new(obj['nodeConfig'], to_s) },
-      'masterAuth' => ->(obj) { return :master_auth, GoogleInSpec::Container::Property::ClusterMasterAuth.new(obj['masterAuth'], to_s) },
-      'loggingService' => ->(obj) { return :logging_service, obj['loggingService'] },
-      'monitoringService' => ->(obj) { return :monitoring_service, obj['monitoringService'] },
-      'network' => ->(obj) { return :cluster_network, obj['network'] },
-      'databaseEncryption' => ->(obj) { return :database_encryption, GoogleInSpec::Container::Property::ClusterDatabaseEncryption.new(obj['databaseEncryption'], to_s) },
-      'privateClusterConfig' => ->(obj) { return :private_cluster_config, GoogleInSpec::Container::Property::ClusterPrivateClusterConfig.new(obj['privateClusterConfig'], to_s) },
-      'clusterIpv4Cidr' => ->(obj) { return :cluster_ipv4_cidr, obj['clusterIpv4Cidr'] },
-      'enableTpu' => ->(obj) { return :enable_tpu, obj['enableTpu'] },
-      'tpuIpv4CidrBlock' => ->(obj) { return :tpu_ipv4_cidr_block, obj['tpuIpv4CidrBlock'] },
-      'addonsConfig' => ->(obj) { return :addons_config, GoogleInSpec::Container::Property::ClusterAddonsConfig.new(obj['addonsConfig'], to_s) },
-      'subnetwork' => ->(obj) { return :subnetwork, obj['subnetwork'] },
-      'datapathProvider' => ->(obj) { return :datapath_provider, obj['datapathProvider'] },
-      'locations' => ->(obj) { return :locations, obj['locations'] },
-      'resourceLabels' => ->(obj) { return :resource_labels, obj['resourceLabels'] },
-      'labelFingerprint' => ->(obj) { return :label_fingerprint, obj['labelFingerprint'] },
-      'legacyAbac' => ->(obj) { return :legacy_abac, GoogleInSpec::Container::Property::ClusterLegacyAbac.new(obj['legacyAbac'], to_s) },
-      'networkPolicy' => ->(obj) { return :network_policy, GoogleInSpec::Container::Property::ClusterNetworkPolicy.new(obj['networkPolicy'], to_s) },
-      'defaultMaxPodsConstraint' => ->(obj) { return :default_max_pods_constraint, GoogleInSpec::Container::Property::ClusterDefaultMaxPodsConstraint.new(obj['defaultMaxPodsConstraint'], to_s) },
-      'ipAllocationPolicy' => ->(obj) { return :ip_allocation_policy, GoogleInSpec::Container::Property::ClusterIpAllocationPolicy.new(obj['ipAllocationPolicy'], to_s) },
-      'endpoint' => ->(obj) { return :endpoint, obj['endpoint'] },
-      'initialClusterVersion' => ->(obj) { return :initial_cluster_version, obj['initialClusterVersion'] },
-      'currentMasterVersion' => ->(obj) { return :current_master_version, obj['currentMasterVersion'] },
-      'currentNodeVersion' => ->(obj) { return :current_node_version, obj['currentNodeVersion'] },
-      'createTime' => ->(obj) { return :create_time, parse_time_string(obj['createTime']) },
-      'status' => ->(obj) { return :cluster_status, obj['status'] },
-      'statusMessage' => ->(obj) { return :status_message, obj['statusMessage'] },
-      'nodeIpv4CidrSize' => ->(obj) { return :node_ipv4_cidr_size, obj['nodeIpv4CidrSize'] },
-      'servicesIpv4Cidr' => ->(obj) { return :services_ipv4_cidr, obj['servicesIpv4Cidr'] },
-      'currentNodeCount' => ->(obj) { return :current_node_count, obj['currentNodeCount'] },
-      'expireTime' => ->(obj) { return :expire_time, parse_time_string(obj['expireTime']) },
-      'conditions' => ->(obj) { return :conditions, GoogleInSpec::Container::Property::ClusterConditionsArray.parse(obj['conditions'], to_s) },
-      'masterAuthorizedNetworksConfig' => ->(obj) { return :master_authorized_networks_config, GoogleInSpec::Container::Property::ClusterMasterAuthorizedNetworksConfig.new(obj['masterAuthorizedNetworksConfig'], to_s) },
-      'nodePools' => ->(obj) { return :node_pools, GoogleInSpec::Container::Property::ClusterNodePoolsArray.parse(obj['nodePools'], to_s) },
-      'podSecurityPolicyConfig' => ->(obj) { return :pod_security_policy_config, GoogleInSpec::Container::Property::ClusterPodSecurityPolicyConfig.new(obj['podSecurityPolicyConfig'], to_s) },
-      'binaryAuthorization' => ->(obj) { return :binary_authorization, GoogleInSpec::Container::Property::ClusterBinaryAuthorization.new(obj['binaryAuthorization'], to_s) },
-      'releaseChannel' => ->(obj) { return :release_channel, GoogleInSpec::Container::Property::ClusterReleaseChannel.new(obj['releaseChannel'], to_s) },
-      'shieldedNodes' => ->(obj) { return :shielded_nodes, GoogleInSpec::Container::Property::ClusterShieldedNodes.new(obj['shieldedNodes'], to_s) },
-      'networkConfig' => ->(obj) { return :network_config, GoogleInSpec::Container::Property::ClusterNetworkConfig.new(obj['networkConfig'], to_s) },
-      'enableKubernetesAlpha' => ->(obj) { return :enable_kubernetes_alpha, obj['enableKubernetesAlpha'] },
-      'location' => ->(obj) { return :location, obj['location'] },
+      "name" => ->(obj) { return :cluster_name, obj["name"] },
+      "description" => ->(obj) { return :description, obj["description"] },
+      "initialNodeCount" => ->(obj) { return :initial_node_count, obj["initialNodeCount"] },
+      "nodeConfig" => ->(obj) { return :node_config, GoogleInSpec::Container::Property::ClusterNodeConfig.new(obj["nodeConfig"], to_s) },
+      "masterAuth" => ->(obj) { return :master_auth, GoogleInSpec::Container::Property::ClusterMasterAuth.new(obj["masterAuth"], to_s) },
+      "loggingService" => ->(obj) { return :logging_service, obj["loggingService"] },
+      "monitoringService" => ->(obj) { return :monitoring_service, obj["monitoringService"] },
+      "network" => ->(obj) { return :cluster_network, obj["network"] },
+      "databaseEncryption" => ->(obj) { return :database_encryption, GoogleInSpec::Container::Property::ClusterDatabaseEncryption.new(obj["databaseEncryption"], to_s) },
+      "privateClusterConfig" => ->(obj) { return :private_cluster_config, GoogleInSpec::Container::Property::ClusterPrivateClusterConfig.new(obj["privateClusterConfig"], to_s) },
+      "clusterIpv4Cidr" => ->(obj) { return :cluster_ipv4_cidr, obj["clusterIpv4Cidr"] },
+      "enableTpu" => ->(obj) { return :enable_tpu, obj["enableTpu"] },
+      "tpuIpv4CidrBlock" => ->(obj) { return :tpu_ipv4_cidr_block, obj["tpuIpv4CidrBlock"] },
+      "addonsConfig" => ->(obj) { return :addons_config, GoogleInSpec::Container::Property::ClusterAddonsConfig.new(obj["addonsConfig"], to_s) },
+      "subnetwork" => ->(obj) { return :subnetwork, obj["subnetwork"] },
+      "datapathProvider" => ->(obj) { return :datapath_provider, obj["datapathProvider"] },
+      "locations" => ->(obj) { return :locations, obj["locations"] },
+      "resourceLabels" => ->(obj) { return :resource_labels, obj["resourceLabels"] },
+      "labelFingerprint" => ->(obj) { return :label_fingerprint, obj["labelFingerprint"] },
+      "legacyAbac" => ->(obj) { return :legacy_abac, GoogleInSpec::Container::Property::ClusterLegacyAbac.new(obj["legacyAbac"], to_s) },
+      "networkPolicy" => ->(obj) { return :network_policy, GoogleInSpec::Container::Property::ClusterNetworkPolicy.new(obj["networkPolicy"], to_s) },
+      "defaultMaxPodsConstraint" => ->(obj) { return :default_max_pods_constraint, GoogleInSpec::Container::Property::ClusterDefaultMaxPodsConstraint.new(obj["defaultMaxPodsConstraint"], to_s) },
+      "ipAllocationPolicy" => ->(obj) { return :ip_allocation_policy, GoogleInSpec::Container::Property::ClusterIpAllocationPolicy.new(obj["ipAllocationPolicy"], to_s) },
+      "endpoint" => ->(obj) { return :endpoint, obj["endpoint"] },
+      "initialClusterVersion" => ->(obj) { return :initial_cluster_version, obj["initialClusterVersion"] },
+      "currentMasterVersion" => ->(obj) { return :current_master_version, obj["currentMasterVersion"] },
+      "currentNodeVersion" => ->(obj) { return :current_node_version, obj["currentNodeVersion"] },
+      "createTime" => ->(obj) { return :create_time, parse_time_string(obj["createTime"]) },
+      "status" => ->(obj) { return :cluster_status, obj["status"] },
+      "statusMessage" => ->(obj) { return :status_message, obj["statusMessage"] },
+      "nodeIpv4CidrSize" => ->(obj) { return :node_ipv4_cidr_size, obj["nodeIpv4CidrSize"] },
+      "servicesIpv4Cidr" => ->(obj) { return :services_ipv4_cidr, obj["servicesIpv4Cidr"] },
+      "currentNodeCount" => ->(obj) { return :current_node_count, obj["currentNodeCount"] },
+      "expireTime" => ->(obj) { return :expire_time, parse_time_string(obj["expireTime"]) },
+      "conditions" => ->(obj) { return :conditions, GoogleInSpec::Container::Property::ClusterConditionsArray.parse(obj["conditions"], to_s) },
+      "masterAuthorizedNetworksConfig" => ->(obj) { return :master_authorized_networks_config, GoogleInSpec::Container::Property::ClusterMasterAuthorizedNetworksConfig.new(obj["masterAuthorizedNetworksConfig"], to_s) },
+      "nodePools" => ->(obj) { return :node_pools, GoogleInSpec::Container::Property::ClusterNodePoolsArray.parse(obj["nodePools"], to_s) },
+      "podSecurityPolicyConfig" => ->(obj) { return :pod_security_policy_config, GoogleInSpec::Container::Property::ClusterPodSecurityPolicyConfig.new(obj["podSecurityPolicyConfig"], to_s) },
+      "binaryAuthorization" => ->(obj) { return :binary_authorization, GoogleInSpec::Container::Property::ClusterBinaryAuthorization.new(obj["binaryAuthorization"], to_s) },
+      "releaseChannel" => ->(obj) { return :release_channel, GoogleInSpec::Container::Property::ClusterReleaseChannel.new(obj["releaseChannel"], to_s) },
+      "shieldedNodes" => ->(obj) { return :shielded_nodes, GoogleInSpec::Container::Property::ClusterShieldedNodes.new(obj["shieldedNodes"], to_s) },
+      "networkConfig" => ->(obj) { return :network_config, GoogleInSpec::Container::Property::ClusterNetworkConfig.new(obj["networkConfig"], to_s) },
+      "enableKubernetesAlpha" => ->(obj) { return :enable_kubernetes_alpha, obj["enableKubernetesAlpha"] },
+      "location" => ->(obj) { return :location, obj["location"] },
     }
   end
 
@@ -162,13 +162,13 @@ class ContainerClusters < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://container.googleapis.com/v1beta1/'
+      "https://container.googleapis.com/v1beta1/"
     else
-      'https://container.googleapis.com/v1/'
+      "https://container.googleapis.com/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/locations/{{location}}/clusters'
+    "projects/{{project}}/locations/{{location}}/clusters"
   end
 end

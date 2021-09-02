@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @gce_pd_kms_key_name = args['gcePdKmsKeyName']
+          @gce_pd_kms_key_name = args["gcePdKmsKeyName"]
         end
 
         def to_s

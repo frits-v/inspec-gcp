@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @directory_customer_id = args['directoryCustomerId']
+          @directory_customer_id = args["directoryCustomerId"]
         end
 
         def to_s

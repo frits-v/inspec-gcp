@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @backend_service = args['backendService']
+          @backend_service = args["backendService"]
         end
 
         def to_s

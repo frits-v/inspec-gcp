@@ -13,25 +13,25 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
-require 'google/sql/property/databaseinstance_disk_encryption_configuration'
-require 'google/sql/property/databaseinstance_disk_encryption_status'
-require 'google/sql/property/databaseinstance_failover_replica'
-require 'google/sql/property/databaseinstance_ip_addresses'
-require 'google/sql/property/databaseinstance_replica_configuration'
-require 'google/sql/property/databaseinstance_replica_configuration_mysql_replica_configuration'
-require 'google/sql/property/databaseinstance_server_ca_cert'
-require 'google/sql/property/databaseinstance_settings'
-require 'google/sql/property/databaseinstance_settings_backup_configuration'
-require 'google/sql/property/databaseinstance_settings_database_flags'
-require 'google/sql/property/databaseinstance_settings_ip_configuration'
-require 'google/sql/property/databaseinstance_settings_ip_configuration_authorized_networks'
+require "gcp_backend"
+require "google/sql/property/databaseinstance_disk_encryption_configuration"
+require "google/sql/property/databaseinstance_disk_encryption_status"
+require "google/sql/property/databaseinstance_failover_replica"
+require "google/sql/property/databaseinstance_ip_addresses"
+require "google/sql/property/databaseinstance_replica_configuration"
+require "google/sql/property/databaseinstance_replica_configuration_mysql_replica_configuration"
+require "google/sql/property/databaseinstance_server_ca_cert"
+require "google/sql/property/databaseinstance_settings"
+require "google/sql/property/databaseinstance_settings_backup_configuration"
+require "google/sql/property/databaseinstance_settings_database_flags"
+require "google/sql/property/databaseinstance_settings_ip_configuration"
+require "google/sql/property/databaseinstance_settings_ip_configuration_authorized_networks"
 
 # A provider to manage Cloud SQL resources.
 class SQLDatabaseInstance < GcpResourceBase
-  name 'google_sql_database_instance'
-  desc 'DatabaseInstance'
-  supports platform: 'gcp'
+  name "google_sql_database_instance"
+  desc "DatabaseInstance"
+  supports platform: "gcp"
 
   attr_reader :params
   attr_reader :backend_type
@@ -56,29 +56,29 @@ class SQLDatabaseInstance < GcpResourceBase
   def initialize(params)
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @fetched = @connection.fetch(product_url(params[:beta]), resource_base_url, params, 'Get')
+    @fetched = @connection.fetch(product_url(params[:beta]), resource_base_url, params, "Get")
     parse unless @fetched.nil?
   end
 
   def parse
-    @backend_type = @fetched['backendType']
-    @connection_name = @fetched['connectionName']
-    @database_version = @fetched['databaseVersion']
-    @failover_replica = GoogleInSpec::SQL::Property::DatabaseInstanceFailoverReplica.new(@fetched['failoverReplica'], to_s)
-    @instance_type = @fetched['instanceType']
-    @ip_addresses = GoogleInSpec::SQL::Property::DatabaseInstanceIpAddressesArray.parse(@fetched['ipAddresses'], to_s)
-    @ipv6_address = @fetched['ipv6Address']
-    @master_instance_name = @fetched['masterInstanceName']
-    @max_disk_size = @fetched['maxDiskSize']
-    @name = @fetched['name']
-    @region = @fetched['region']
-    @replica_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceReplicaConfiguration.new(@fetched['replicaConfiguration'], to_s)
-    @settings = GoogleInSpec::SQL::Property::DatabaseInstanceSettings.new(@fetched['settings'], to_s)
-    @gce_zone = @fetched['gceZone']
-    @state = @fetched['state']
-    @disk_encryption_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceDiskEncryptionConfiguration.new(@fetched['diskEncryptionConfiguration'], to_s)
-    @disk_encryption_status = GoogleInSpec::SQL::Property::DatabaseInstanceDiskEncryptionStatus.new(@fetched['diskEncryptionStatus'], to_s)
-    @server_ca_cert = GoogleInSpec::SQL::Property::DatabaseInstanceServerCaCert.new(@fetched['serverCaCert'], to_s)
+    @backend_type = @fetched["backendType"]
+    @connection_name = @fetched["connectionName"]
+    @database_version = @fetched["databaseVersion"]
+    @failover_replica = GoogleInSpec::SQL::Property::DatabaseInstanceFailoverReplica.new(@fetched["failoverReplica"], to_s)
+    @instance_type = @fetched["instanceType"]
+    @ip_addresses = GoogleInSpec::SQL::Property::DatabaseInstanceIpAddressesArray.parse(@fetched["ipAddresses"], to_s)
+    @ipv6_address = @fetched["ipv6Address"]
+    @master_instance_name = @fetched["masterInstanceName"]
+    @max_disk_size = @fetched["maxDiskSize"]
+    @name = @fetched["name"]
+    @region = @fetched["region"]
+    @replica_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceReplicaConfiguration.new(@fetched["replicaConfiguration"], to_s)
+    @settings = GoogleInSpec::SQL::Property::DatabaseInstanceSettings.new(@fetched["settings"], to_s)
+    @gce_zone = @fetched["gceZone"]
+    @state = @fetched["state"]
+    @disk_encryption_configuration = GoogleInSpec::SQL::Property::DatabaseInstanceDiskEncryptionConfiguration.new(@fetched["diskEncryptionConfiguration"], to_s)
+    @disk_encryption_status = GoogleInSpec::SQL::Property::DatabaseInstanceDiskEncryptionStatus.new(@fetched["diskEncryptionStatus"], to_s)
+    @server_ca_cert = GoogleInSpec::SQL::Property::DatabaseInstanceServerCaCert.new(@fetched["serverCaCert"], to_s)
   end
 
   def exists?
@@ -91,7 +91,7 @@ class SQLDatabaseInstance < GcpResourceBase
 
   def has_ip_configuration_require_ssl?
     return false if @settings&.ip_configuration&.require_ssl.nil?
-    return true if @settings.ip_configuration.require_ssl.to_s.casecmp('true').zero?
+    return true if @settings.ip_configuration.require_ssl.to_s.casecmp("true").zero?
     false
   end
 
@@ -101,17 +101,17 @@ class SQLDatabaseInstance < GcpResourceBase
   end
 
   def primary_ip_address
-    return '' if !@ip_addresses.size.zero? || @ip_addresses[0].ip_address.nil?
+    return "" if !@ip_addresses.size.zero? || @ip_addresses[0].ip_address.nil?
     @ip_addresses[0].ip_address
   end
 
   private
 
   def product_url(_ = nil)
-    'https://www.googleapis.com/sql/v1beta4/'
+    "https://www.googleapis.com/sql/v1beta4/"
   end
 
   def resource_base_url
-    'projects/{{project}}/instances/{{database}}'
+    "projects/{{project}}/instances/{{database}}"
   end
 end

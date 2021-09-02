@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @issue_client_certificate = args['issueClientCertificate']
+          @issue_client_certificate = args["issueClientCertificate"]
         end
 
         def to_s

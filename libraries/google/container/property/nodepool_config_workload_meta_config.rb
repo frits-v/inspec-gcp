@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @mode = args['mode']
+          @mode = args["mode"]
         end
 
         def to_s

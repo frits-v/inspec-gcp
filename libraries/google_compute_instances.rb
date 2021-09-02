@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class ComputeInstances < GcpResourceBase
-  name 'google_compute_instances'
-  desc 'Instance plural resource'
-  supports platform: 'gcp'
+  name "google_compute_instances"
+  desc "Instance plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -51,12 +51,12 @@ class ComputeInstances < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('items')
+    @table = fetch_wrapped_resource("items")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -84,28 +84,28 @@ class ComputeInstances < GcpResourceBase
 
   def transformers
     {
-      'canIpForward' => ->(obj) { return :can_ip_forward, obj['canIpForward'] },
-      'cpuPlatform' => ->(obj) { return :cpu_platform, obj['cpuPlatform'] },
-      'creationTimestamp' => ->(obj) { return :creation_timestamp, obj['creationTimestamp'] },
-      'deletionProtection' => ->(obj) { return :deletion_protection, obj['deletionProtection'] },
-      'disks' => ->(obj) { return :disks, GoogleInSpec::Compute::Property::InstanceDisksArray.parse(obj['disks'], to_s) },
-      'guestAccelerators' => ->(obj) { return :guest_accelerators, GoogleInSpec::Compute::Property::InstanceGuestAcceleratorsArray.parse(obj['guestAccelerators'], to_s) },
-      'hostname' => ->(obj) { return :hostname, obj['hostname'] },
-      'id' => ->(obj) { return :instance_id, obj['id'] },
-      'labelFingerprint' => ->(obj) { return :label_fingerprint, obj['labelFingerprint'] },
-      'labels' => ->(obj) { return :labels, obj['labels'] },
-      'metadata' => ->(obj) { return :metadata, obj['metadata'] },
-      'machineType' => ->(obj) { return :machine_type, obj['machineType'] },
-      'minCpuPlatform' => ->(obj) { return :min_cpu_platform, obj['minCpuPlatform'] },
-      'name' => ->(obj) { return :instance_name, obj['name'] },
-      'networkInterfaces' => ->(obj) { return :network_interfaces, GoogleInSpec::Compute::Property::InstanceNetworkInterfacesArray.parse(obj['networkInterfaces'], to_s) },
-      'scheduling' => ->(obj) { return :scheduling, GoogleInSpec::Compute::Property::InstanceScheduling.new(obj['scheduling'], to_s) },
-      'serviceAccounts' => ->(obj) { return :service_accounts, GoogleInSpec::Compute::Property::InstanceServiceAccountsArray.parse(obj['serviceAccounts'], to_s) },
-      'shieldedInstanceConfig' => ->(obj) { return :shielded_instance_config, GoogleInSpec::Compute::Property::InstanceShieldedInstanceConfig.new(obj['shieldedInstanceConfig'], to_s) },
-      'status' => ->(obj) { return :status, obj['status'] },
-      'statusMessage' => ->(obj) { return :status_message, obj['statusMessage'] },
-      'tags' => ->(obj) { return :tags, GoogleInSpec::Compute::Property::InstanceTags.new(obj['tags'], to_s) },
-      'zone' => ->(obj) { return :zone, obj['zone'] },
+      "canIpForward" => ->(obj) { return :can_ip_forward, obj["canIpForward"] },
+      "cpuPlatform" => ->(obj) { return :cpu_platform, obj["cpuPlatform"] },
+      "creationTimestamp" => ->(obj) { return :creation_timestamp, obj["creationTimestamp"] },
+      "deletionProtection" => ->(obj) { return :deletion_protection, obj["deletionProtection"] },
+      "disks" => ->(obj) { return :disks, GoogleInSpec::Compute::Property::InstanceDisksArray.parse(obj["disks"], to_s) },
+      "guestAccelerators" => ->(obj) { return :guest_accelerators, GoogleInSpec::Compute::Property::InstanceGuestAcceleratorsArray.parse(obj["guestAccelerators"], to_s) },
+      "hostname" => ->(obj) { return :hostname, obj["hostname"] },
+      "id" => ->(obj) { return :instance_id, obj["id"] },
+      "labelFingerprint" => ->(obj) { return :label_fingerprint, obj["labelFingerprint"] },
+      "labels" => ->(obj) { return :labels, obj["labels"] },
+      "metadata" => ->(obj) { return :metadata, obj["metadata"] },
+      "machineType" => ->(obj) { return :machine_type, obj["machineType"] },
+      "minCpuPlatform" => ->(obj) { return :min_cpu_platform, obj["minCpuPlatform"] },
+      "name" => ->(obj) { return :instance_name, obj["name"] },
+      "networkInterfaces" => ->(obj) { return :network_interfaces, GoogleInSpec::Compute::Property::InstanceNetworkInterfacesArray.parse(obj["networkInterfaces"], to_s) },
+      "scheduling" => ->(obj) { return :scheduling, GoogleInSpec::Compute::Property::InstanceScheduling.new(obj["scheduling"], to_s) },
+      "serviceAccounts" => ->(obj) { return :service_accounts, GoogleInSpec::Compute::Property::InstanceServiceAccountsArray.parse(obj["serviceAccounts"], to_s) },
+      "shieldedInstanceConfig" => ->(obj) { return :shielded_instance_config, GoogleInSpec::Compute::Property::InstanceShieldedInstanceConfig.new(obj["shieldedInstanceConfig"], to_s) },
+      "status" => ->(obj) { return :status, obj["status"] },
+      "statusMessage" => ->(obj) { return :status_message, obj["statusMessage"] },
+      "tags" => ->(obj) { return :tags, GoogleInSpec::Compute::Property::InstanceTags.new(obj["tags"], to_s) },
+      "zone" => ->(obj) { return :zone, obj["zone"] },
     }
   end
 
@@ -113,13 +113,13 @@ class ComputeInstances < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://compute.googleapis.com/compute/beta/'
+      "https://compute.googleapis.com/compute/beta/"
     else
-      'https://compute.googleapis.com/compute/v1/'
+      "https://compute.googleapis.com/compute/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/zones/{{zone}}/instances'
+    "projects/{{project}}/zones/{{zone}}/instances"
   end
 end

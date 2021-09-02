@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @channel = args['channel']
+          @channel = args["channel"]
         end
 
         def to_s

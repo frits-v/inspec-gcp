@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @src_ip_ranges = args['srcIpRanges']
+          @src_ip_ranges = args["srcIpRanges"]
         end
 
         def to_s

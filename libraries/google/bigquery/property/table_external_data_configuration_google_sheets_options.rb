@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @skip_leading_rows = args['skipLeadingRows']
+          @skip_leading_rows = args["skipLeadingRows"]
         end
 
         def to_s

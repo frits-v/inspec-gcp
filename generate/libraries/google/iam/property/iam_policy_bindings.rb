@@ -24,8 +24,8 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @role = args['role']
-          @members = args['members']
+          @role = args["role"]
+          @members = args["members"]
         end
 
         def to_s

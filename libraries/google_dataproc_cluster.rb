@@ -13,29 +13,29 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
-require 'google/dataproc/property/cluster_config'
-require 'google/dataproc/property/cluster_config_encryption_config'
-require 'google/dataproc/property/cluster_config_gce_cluster_config'
-require 'google/dataproc/property/cluster_config_initialization_actions'
-require 'google/dataproc/property/cluster_config_master_config'
-require 'google/dataproc/property/cluster_config_master_config_disk_config'
-require 'google/dataproc/property/cluster_config_master_config_managed_group_config'
-require 'google/dataproc/property/cluster_config_secondary_worker_config'
-require 'google/dataproc/property/cluster_config_secondary_worker_config_disk_config'
-require 'google/dataproc/property/cluster_config_secondary_worker_config_managed_group_config'
-require 'google/dataproc/property/cluster_config_security_config'
-require 'google/dataproc/property/cluster_config_security_config_kerberos_config'
-require 'google/dataproc/property/cluster_config_software_config'
-require 'google/dataproc/property/cluster_config_worker_config'
-require 'google/dataproc/property/cluster_config_worker_config_disk_config'
-require 'google/dataproc/property/cluster_config_worker_config_managed_group_config'
+require "gcp_backend"
+require "google/dataproc/property/cluster_config"
+require "google/dataproc/property/cluster_config_encryption_config"
+require "google/dataproc/property/cluster_config_gce_cluster_config"
+require "google/dataproc/property/cluster_config_initialization_actions"
+require "google/dataproc/property/cluster_config_master_config"
+require "google/dataproc/property/cluster_config_master_config_disk_config"
+require "google/dataproc/property/cluster_config_master_config_managed_group_config"
+require "google/dataproc/property/cluster_config_secondary_worker_config"
+require "google/dataproc/property/cluster_config_secondary_worker_config_disk_config"
+require "google/dataproc/property/cluster_config_secondary_worker_config_managed_group_config"
+require "google/dataproc/property/cluster_config_security_config"
+require "google/dataproc/property/cluster_config_security_config_kerberos_config"
+require "google/dataproc/property/cluster_config_software_config"
+require "google/dataproc/property/cluster_config_worker_config"
+require "google/dataproc/property/cluster_config_worker_config_disk_config"
+require "google/dataproc/property/cluster_config_worker_config_managed_group_config"
 
 # A provider to manage Dataproc resources.
 class DataprocCluster < GcpResourceBase
-  name 'google_dataproc_cluster'
-  desc 'Cluster'
-  supports platform: 'gcp'
+  name "google_dataproc_cluster"
+  desc "Cluster"
+  supports platform: "gcp"
 
   attr_reader :params
   attr_reader :cluster_name
@@ -46,15 +46,15 @@ class DataprocCluster < GcpResourceBase
   def initialize(params)
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @fetched = @connection.fetch(product_url(params[:beta]), resource_base_url, params, 'Get')
+    @fetched = @connection.fetch(product_url(params[:beta]), resource_base_url, params, "Get")
     parse unless @fetched.nil?
   end
 
   def parse
-    @cluster_name = @fetched['clusterName']
-    @labels = @fetched['labels']
-    @config = GoogleInSpec::Dataproc::Property::ClusterConfig.new(@fetched['config'], to_s)
-    @region = @fetched['region']
+    @cluster_name = @fetched["clusterName"]
+    @labels = @fetched["labels"]
+    @config = GoogleInSpec::Dataproc::Property::ClusterConfig.new(@fetched["config"], to_s)
+    @region = @fetched["region"]
   end
 
   def exists?
@@ -69,13 +69,13 @@ class DataprocCluster < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://dataproc.googleapis.com/v1beta2/'
+      "https://dataproc.googleapis.com/v1beta2/"
     else
-      'https://dataproc.googleapis.com/v1/'
+      "https://dataproc.googleapis.com/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/regions/{{region}}/clusters/{{cluster_name}}'
+    "projects/{{project}}/regions/{{region}}/clusters/{{cluster_name}}"
   end
 end

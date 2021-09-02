@@ -13,11 +13,11 @@
 #     CONTRIBUTING.md located at the root of this package.
 #
 # ----------------------------------------------------------------------------
-require 'gcp_backend'
+require "gcp_backend"
 class ComputeRegionInstanceGroupManagers < GcpResourceBase
-  name 'google_compute_region_instance_group_managers'
-  desc 'RegionInstanceGroupManager plural resource'
-  supports platform: 'gcp'
+  name "google_compute_region_instance_group_managers"
+  desc "RegionInstanceGroupManager plural resource"
+  supports platform: "gcp"
 
   attr_reader :table
 
@@ -42,12 +42,12 @@ class ComputeRegionInstanceGroupManagers < GcpResourceBase
   def initialize(params = {})
     super(params.merge({ use_http_transport: true }))
     @params = params
-    @table = fetch_wrapped_resource('items')
+    @table = fetch_wrapped_resource("items")
   end
 
   def fetch_wrapped_resource(wrap_path)
     # fetch_resource returns an array of responses (to handle pagination)
-    result = @connection.fetch_all(product_url, resource_base_url, @params, 'Get')
+    result = @connection.fetch_all(product_url, resource_base_url, @params, "Get")
     return if result.nil?
 
     # Conversion of string -> object hash to symbol -> object hash that InSpec needs
@@ -75,19 +75,19 @@ class ComputeRegionInstanceGroupManagers < GcpResourceBase
 
   def transformers
     {
-      'baseInstanceName' => ->(obj) { return :base_instance_name, obj['baseInstanceName'] },
-      'creationTimestamp' => ->(obj) { return :creation_timestamp, parse_time_string(obj['creationTimestamp']) },
-      'currentActions' => ->(obj) { return :current_actions, GoogleInSpec::Compute::Property::RegionInstanceGroupManagerCurrentActions.new(obj['currentActions'], to_s) },
-      'description' => ->(obj) { return :description, obj['description'] },
-      'id' => ->(obj) { return :instance_group_manager_id, obj['id'] },
-      'instanceGroup' => ->(obj) { return :instance_group, obj['instanceGroup'] },
-      'instanceTemplate' => ->(obj) { return :instance_template, obj['instanceTemplate'] },
-      'name' => ->(obj) { return :instance_group_manager_name, obj['name'] },
-      'namedPorts' => ->(obj) { return :named_ports, GoogleInSpec::Compute::Property::RegionInstanceGroupManagerNamedPortsArray.parse(obj['namedPorts'], to_s) },
-      'targetPools' => ->(obj) { return :target_pools, obj['targetPools'] },
-      'targetSize' => ->(obj) { return :target_size, obj['targetSize'] },
-      'autoHealingPolicies' => ->(obj) { return :auto_healing_policies, GoogleInSpec::Compute::Property::RegionInstanceGroupManagerAutoHealingPoliciesArray.parse(obj['autoHealingPolicies'], to_s) },
-      'region' => ->(obj) { return :region, obj['region'] },
+      "baseInstanceName" => ->(obj) { return :base_instance_name, obj["baseInstanceName"] },
+      "creationTimestamp" => ->(obj) { return :creation_timestamp, parse_time_string(obj["creationTimestamp"]) },
+      "currentActions" => ->(obj) { return :current_actions, GoogleInSpec::Compute::Property::RegionInstanceGroupManagerCurrentActions.new(obj["currentActions"], to_s) },
+      "description" => ->(obj) { return :description, obj["description"] },
+      "id" => ->(obj) { return :instance_group_manager_id, obj["id"] },
+      "instanceGroup" => ->(obj) { return :instance_group, obj["instanceGroup"] },
+      "instanceTemplate" => ->(obj) { return :instance_template, obj["instanceTemplate"] },
+      "name" => ->(obj) { return :instance_group_manager_name, obj["name"] },
+      "namedPorts" => ->(obj) { return :named_ports, GoogleInSpec::Compute::Property::RegionInstanceGroupManagerNamedPortsArray.parse(obj["namedPorts"], to_s) },
+      "targetPools" => ->(obj) { return :target_pools, obj["targetPools"] },
+      "targetSize" => ->(obj) { return :target_size, obj["targetSize"] },
+      "autoHealingPolicies" => ->(obj) { return :auto_healing_policies, GoogleInSpec::Compute::Property::RegionInstanceGroupManagerAutoHealingPoliciesArray.parse(obj["autoHealingPolicies"], to_s) },
+      "region" => ->(obj) { return :region, obj["region"] },
     }
   end
 
@@ -100,13 +100,13 @@ class ComputeRegionInstanceGroupManagers < GcpResourceBase
 
   def product_url(beta = false)
     if beta
-      'https://compute.googleapis.com/compute/beta/'
+      "https://compute.googleapis.com/compute/beta/"
     else
-      'https://compute.googleapis.com/compute/v1/'
+      "https://compute.googleapis.com/compute/v1/"
     end
   end
 
   def resource_base_url
-    'projects/{{project}}/regions/{{region}}/instanceGroupManagers'
+    "projects/{{project}}/regions/{{region}}/instanceGroupManagers"
   end
 end

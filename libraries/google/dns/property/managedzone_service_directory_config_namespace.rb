@@ -22,7 +22,7 @@ module GoogleInSpec
         def initialize(args = nil, parent_identifier = nil)
           return if args.nil?
           @parent_identifier = parent_identifier
-          @namespace_url = args['namespaceUrl']
+          @namespace_url = args["namespaceUrl"]
         end
 
         def to_s
