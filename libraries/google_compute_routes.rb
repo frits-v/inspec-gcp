@@ -35,6 +35,7 @@ class ComputeRoutes < GcpResourceBase
   filter_table_config.add(:next_hop_vpn_tunnels, field: :next_hop_vpn_tunnel)
   filter_table_config.add(:next_hop_networks, field: :next_hop_network)
   filter_table_config.add(:next_hop_ilbs, field: :next_hop_ilb)
+  filter_table_config.add(:next_hop_peerings, field: :next_hop_peerings)
 
   filter_table_config.connect(self, :table)
 
@@ -86,6 +87,7 @@ class ComputeRoutes < GcpResourceBase
       'nextHopVpnTunnel' => ->(obj) { return :next_hop_vpn_tunnel, obj['nextHopVpnTunnel'] },
       'nextHopNetwork' => ->(obj) { return :next_hop_network, obj['nextHopNetwork'] },
       'nextHopIlb' => ->(obj) { return :next_hop_ilb, obj['nextHopIlb'] },
+      'nextHopPeering' => ->(obj) { return :next_hop_peering, obj['nextHopPeering'] },
     }
   end
 
